@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SLT Data Monitor</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="loading" class="loading-overlay">
+    <div class="spinner"></div>
+  </div>
+
+  <div class="container">
+    <header>
+      <div class="brand">
+        <img src="icons/brand48.png" alt="SLT Data logo" class="brand-logo">
+      </div>
+      <span id="connection-status" class="status-badge">Waiting for first update...</span>
+    </header>
+
+    <div id="login-hint" class="login-hint hidden">
+      You need to log in to MySLT to refresh data.
+    </div>
+
+    <div class="usage-card">
+      <div class="usage-title">
+        <span>Total Remaining</span>
+        <span id="percentage-label">--</span>
+      </div>
+      <div id="total-remaining" class="usage-value">--</div>
+      <div class="usage-subline">
+        <span id="total-full">Full: --</span>
+        <span id="total-used">Used: --</span>
+      </div>
+      <div class="progress-container">
+        <div id="progress-bar" class="progress-bar"></div>
+      </div>
+    </div>
+
+    <div class="details">
+      <div class="detail-item">
+        <span class="detail-label">Peak</span>
+        <span id="peak-remaining" class="detail-value">--</span>
+        <span id="peak-full" class="detail-sub">Full: --</span>
+        <div class="mini-progress-container">
+          <div id="peak-progress" class="mini-progress-bar"></div>
+        </div>
+      </div>
+      <div class="detail-item">
+        <span class="detail-label">Off-Peak</span>
+        <span id="offpeak-remaining" class="detail-value">--</span>
+        <span id="offpeak-full" class="detail-sub">Full: --</span>
+        <div class="mini-progress-container">
+          <div id="offpeak-progress" class="mini-progress-bar"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="details">
+      <div class="detail-item">
+        <span class="detail-label">Extra GB</span>
+        <span id="extra-remaining" class="detail-value">--</span>
+        <span id="extra-full" class="detail-sub">Full: --</span>
+        <div class="mini-progress-container">
+          <div id="extra-progress" class="mini-progress-bar"></div>
+        </div>
+      </div>
+      <div class="detail-item">
+        <span class="detail-label">Bonus Data</span>
+        <span id="bonus-remaining" class="detail-value">--</span>
+        <span id="bonus-full" class="detail-sub">Full: --</span>
+        <div class="mini-progress-container">
+          <div id="bonus-progress" class="mini-progress-bar"></div>
+        </div>
+      </div>
+      <div class="detail-item">
+        <span class="detail-label">Add-Ons Data</span>
+        <span id="addons-remaining" class="detail-value">--</span>
+        <span id="addons-full" class="detail-sub">Full: --</span>
+        <div class="mini-progress-container">
+          <div id="addons-progress" class="mini-progress-bar"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button id="refresh-btn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 4v6h-6"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+        Refresh
+      </button>
+      <button id="settings-btn" class="secondary">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+      </button>
+    </div>
+
+    <div id="settings-panel" class="settings-panel">
+      <div class="input-group">
+        <label for="threshold">Low Data Alert Threshold (%)</label>
+        <input type="number" id="threshold" min="0" max="100" value="10">
+      </div>
+      <button id="save-settings">Save Settings</button>
+    </div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
