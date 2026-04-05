@@ -236,6 +236,19 @@ button.secondary {
   border-top: 1px solid var(--glass-border);
 }
 
+.container,
+body {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.container::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  display: none;
+}
+
 .settings-panel.show {
   display: flex;
 }
